@@ -15,3 +15,5 @@ Esempio
 Da notare come le cifre devono essere sempre 3, in caso di numeri sotto il 100 occorre mettere degli zero davanti.
 
 In questo modo il sistema è in grado di identificare la matricola e saprà indirizzare correttamente il dipendente nella sua sezione personale.
+
+Inoltre, per garantire privacy, sarebbe opportuno per un nuovo dipendente mettere come password lo stesso username, in modo tale che il sistema al primo login del dipendente lo indirizzi sulla sezione reimposta password, obbligandolo a settarne un' altra, diversa dal suo username.
