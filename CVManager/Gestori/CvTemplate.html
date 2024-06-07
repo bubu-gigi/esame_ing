@@ -1,0 +1,154 @@
+<html>
+<head>
+    <style>
+        body{
+            font-family:"Calibri", sans-serif;
+            box-sizing: border-box;
+        }
+        .top_left_container{
+            float: left;
+        }
+        .top_right_container{
+            float: right;
+        }
+        .top_left_child1_container{
+            color: #707070;
+            height: 2.2em;
+            padding-right: .7em;
+            margin-right: .7em;
+            border-right: solid red;
+            float: left;
+        }
+        .top_left_child2_container{
+            float: right;
+        }
+        .cv_container{
+            clear: both;
+        }
+        .sintesi_body_container{
+            margin-top: -5px;
+        }
+        .competenze_container{
+            page-break-inside: avoid;
+            border-style: solid;
+            height: auto;
+            margin-right: 50px;
+        }
+        table {
+            break-inside: avoid;
+            border-collapse: collapse;
+            border: 2px solid;
+            margin-top: 30px;
+            font-family: sans-serif;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+        table,tbody {
+            vertical-align: top;
+            page-break-inside: avoid;
+            overflow: visible;
+        }
+        th,tr,td{
+            border: 1px solid;
+            padding: 8px 10px;
+            height: 4px;
+        }
+        .li_attivita{
+            margin-top: 0;
+            padding-top: 0;
+        }
+        .lingue_table_title_container{
+            text-align: left;
+            height: 4px;
+        }
+        .lingue_table_columns_names_container{
+            background-color: #D8D8D8;
+            font-weight: bold;
+            height: 4px;
+            font-size: 0.950em;
+        }
+        .lingue_table_column_name_container{
+            width: 25%;
+            font-size: 0.950em;
+        }
+        .n_c_f_table_header_container{
+            background-color: #E0E0E0;
+        }
+        .ul_custom{
+            list-style-type: circle;
+        }
+        .n_c_f_table_body_n_c_container{
+            padding: 0;
+            text-align: left;
+        }
+        .lingua_nome{
+            font-weight: bold;
+            font-size: 0.950em;
+        }
+        .lingua_item{
+            font-size: 0.950em;
+        }
+    </style>
+</head>
+<body>
+    <div style="width: 100%;">
+        <div class="top_left_container">
+            <div>                                                  <!-- Usare il trattino normale '-' -->
+                <h1 class="top_left_child1_container">TEAM</h1>
+                <div class="top_left_child2_container">
+                    <h2 style="color: #505050; font-size: 1.575em;">Curriculum Vitae</h2>
+                    <h3 style="color: #787878; font-size: 1.375em; -padding-top: 8px;" id="topNomeAndCognome">{{nome_cognome}}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="top_right_container">
+            <!--<h3 style="color: #A0A0A0;">Gruppo<span class="color: #FF0000;">Meta</span></h3>-->
+        </div>
+    </div>
+    <div class="cv_container">
+        <div class="pos_esp_container">
+            <div class="posizione_container">
+                <span style="color: #707070; font-weight: bold;">POSIZIONE: <span id="posizione" style="color: #404040; font-weight: bold;">{{posizione}}</span></span>
+            </div>
+            <div class="esperienza_container">
+                <span style="color: #707070; font-weight: bold;">ESPERIENZA <span id="esperienza" style="color: #000000; font-weight: 100;" class="posizione_body_container">{{esperienza}}</span></span>
+            </div>
+        </div>
+        <div class="sintesi_container">
+            <h3 style="color: #686868; text-decoration: underline;" class="sintesi_title_container">In breve</h3>
+            <p id="sintesi" class="sintesi_body_container">{{sintesi}}</p>
+        </div>
+        <div class="esperienze_container">
+            <h3 style="color: #686868; text-decoration: underline;" class="esperienze_title_container">Esperienze lavorative </h3>
+            <ul id="attivita_list" class="attivita_list_container">{{attivita}}</ul>
+        </div>
+        <div class="formazione_container">
+            <h3 style="color: #686868; text-decoration: underline;" class="formazione_title_container">Istruzione e formazione</h3>
+            <ul id="formazione_list" class="formazione_list_container">{{formazione}}</ul>
+        </div>
+        <div style="page-break-inside: avoid;" class="competenze_container">
+            <div style="height: auto; margin-left: 4px;">
+                <h3 style="color: #686868; text-decoration: underline;" class="competenze_title_container">Capacita e competenze tecniche</h3>
+                <ul id="competenze_list" style="height: auto;">{{competenze}}</ul>
+            </div>
+        </div>
+        <table style="width: 100%" class="lingue_table_container">
+            <thead class="lingue_table_header_container">
+                <tr>
+                    <th colspan="4" style="color: #686868; text-decoration: underline;" class="lingue_table_title_container">Competenze linguistiche</th>
+                </tr>
+                <tr class="lingue_table_columns_names_container">
+                    <th class="lingue_table_column_name_container">Lingua</th>
+                    <th class="lingue_table_column_name_container">Comprensione</th>
+                    <th class="lingue_table_column_name_container">Parlato</th>
+                    <th class="lingue_table_column_name_container">Scritto</th>
+                </tr>
+            </thead>
+            <tbody class="lingue_table_body_container" id="lingueTableBody">
+                {{lingue}}
+            </tbody>
+        </table>
+    </div>
+    <p class="gdpr_container"><b>Ai sensi del GDPR 25 maggio 2018 si autorizza il trattamento dei dati personali</b></p>
+</body>
+</html>
