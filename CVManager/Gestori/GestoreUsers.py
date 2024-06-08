@@ -74,8 +74,10 @@ class GestoreUsers:
 
         if username == "admin" and password == "R01mkWgY":
             return "admin"
-        if self.users is None or len(self.users) <= 0 or len(self.dipendenti) <= 0 or self.dipendenti is None:
+
+        if self.users is None or len(self.users) <= 0:
             return "ko"
+
         else:
             for user in self.users.values():
                 u = user.get_username()
@@ -89,9 +91,12 @@ class GestoreUsers:
                             matricola = matricola[1:]
                         if username == password:
                             return "dip first login"
-                        for dipendente in self.dipendenti.values():
-                            if int(dipendente.get_matricola()) == int(matricola):
-                                return dipendente
+                        if self.dipendenti is not None:
+                            for dipendente in self.dipendenti.values():
+                                if int(dipendente.get_matricola()) == int(matricola):
+                                    return dipendente
+                        else:
+                            return int(matricola)
             return "ko"
 
 

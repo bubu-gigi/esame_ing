@@ -1,3 +1,5 @@
+import os
+
 from PyQt5.QtWidgets import QWidget, QLineEdit, QPushButton, QMessageBox, QDesktopWidget
 from PyQt5.uic import loadUi
 
@@ -15,6 +17,7 @@ class Login(QWidget):
         self.reimposta_password = None
         self.dipendente_form = None
         self.dipendenti_table = None
+
         loadUi("./GUILayout/login.ui", self)
 
         self.center()
@@ -42,6 +45,12 @@ class Login(QWidget):
             self.dipendente_form = DipendenteForm(dipendente=feedback)
             self.close()
             return self.dipendente_form.show()
+        if isinstance(feedback, int):
+            dipendente = Dipendente()
+            dipendente.set_matricola(feedback)
+            self.dipendente_form = DipendenteForm(dipendente=dipendente)
+            self.close()
+            self.dipendente_form.show()
         elif feedback == "dip first login":
             self.reimposta_password = ReimpostaPassword()
             self.close()

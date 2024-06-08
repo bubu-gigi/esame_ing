@@ -1,3 +1,4 @@
+import re
 from datetime import datetime
 
 from PyQt5.uic import loadUi
@@ -34,8 +35,7 @@ class DipendenteForm(QDialog):
             self.delete.hide()
             self.curriculum.hide()
 
-        if role == "dipendente":
-            self.delete.hide()
+
 
 
         self.matricola = self.findChild(QLineEdit, "dip_matricola")
@@ -62,8 +62,12 @@ class DipendenteForm(QDialog):
         self.ruolo.addItems(ruoli_list)
         self.stato.addItems(stato_list)
 
+        if role == "dipendente":
+            self.delete.hide()
+            self.matricola.setEnabled(False)
+
         if dipendente is not None:
-            self.matricola.setText(dipendente.get_matricola())
+            self.matricola.setText(str(dipendente.get_matricola()))
             self.nome.setText(dipendente.get_nome())
             self.cognome.setText(dipendente.get_cognome())
             self.data_nascita.setText(Helper.map_data_to_format(str(dipendente.get_data_nascita())))
@@ -105,6 +109,12 @@ class DipendenteForm(QDialog):
                 return
         if self.ruolo.currentText() == "" or self.stato.currentText() == "":
             QMessageBox.critical(self, 'Errore', "Compila tutti i campi", QMessageBox.Ok, QMessageBox.Ok)
+            return
+
+        pattern_date = r"^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$"
+
+        if not re.match(pattern_date, self.data_nascita.text()):
+            QMessageBox.critical(self, 'Errore', "Data nascita non valida. Usa questo formato: dd/mm/yyyy", QMessageBox.Ok, QMessageBox.Ok)
             return
 
         if self.dipendente is None:
@@ -152,7 +162,12 @@ class DipendenteForm(QDialog):
     def handle_curriculum_click(self):
         gestore_curriculum = GestoreCurriculum()
         curriculum = gestore_curriculum.ricerca_curriculum(self.dipendente.get_matricola())
-        self.curriculum_form = CurriculumForm(dipendente=self.dipendente, curriculum=curriculum)
-        self.close()
-        return self.curriculum_form.show()
+        if self.role == "admin":
+            self.curriculum_form = CurriculumForm(dipendente=self.dipendente, curriculum=curriculum, role="admin")
+            self.close()
+            return self.curriculum_form.show()
+        else:
+            self.curriculum_form = CurriculumForm(dipendente=self.dipendente, curriculum=curriculum, role="dipendente")
+            self.close()
+            return self.curriculum_form.show()
 

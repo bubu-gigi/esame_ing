@@ -65,6 +65,9 @@ class Helper:
                 return []
 
     @staticmethod
-    def map_data_to_format(data):
-        parts = data.split("-")
-        return parts[2][:2] + "/" + parts[1] + "/" + parts[0]
+    def map_data_to_format(data: str):
+        if "-" in data:
+            parts = data.split("-")
+            return parts[2][:2] + "/" + parts[1] + "/" + parts[0]
+        else:
+            return data

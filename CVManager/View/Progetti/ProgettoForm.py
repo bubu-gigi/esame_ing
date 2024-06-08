@@ -1,3 +1,6 @@
+from datetime import datetime
+import re
+
 from Gestori.GestoreProgetti import GestoreProgetti
 from PyQt5.uic import loadUi
 from PyQt5.QtWidgets import QDialog, QPushButton, QLineEdit, QMessageBox, QTextEdit, QComboBox, QListWidget, \
@@ -56,8 +59,8 @@ class ProgettoForm(QDialog):
             self.tipologia.setCurrentText(progetto.get_tipologia())
             self.stato.setCurrentText(progetto.get_stato())
             self.budget.setText(progetto.get_budget())
-            self.data_inizio.setText(progetto.get_data_inizio())
-            self.data_fine.setText(progetto.get_data_fine())
+            self.data_inizio.setText(Helper.map_data_to_format(str(progetto.get_data_inizio())))
+            self.data_fine.setText(Helper.map_data_to_format(str(progetto.get_data_fine())))
             self.descrizione.setPlainText(progetto.get_descrizione())
             dips = []
             for dip in progetto.get_dipendenti():
@@ -95,7 +98,11 @@ class ProgettoForm(QDialog):
         try:
             int(self.pm_matricola.text())
         except:
-            QMessageBox.critical(self, 'Errore', 'L\'id e la matricola devono essere un numero', QMessageBox.Ok, QMessageBox.Ok)
+            QMessageBox.critical(self, 'Errore', 'La matricola deve essere un numero', QMessageBox.Ok, QMessageBox.Ok)
+            return
+        bool = self.budget.text().isnumeric()
+        if not bool:
+            QMessageBox.critical(self, 'Errore', 'Il budget deve essere un numero', QMessageBox.Ok, QMessageBox.Ok)
             return
         children = self.findChildren(QLineEdit)
         for c in children:
@@ -115,7 +122,17 @@ class ProgettoForm(QDialog):
             return
 
         if self.stato.currentText() == "" or self.tipologia.currentText() == "":
-            QMessageBox.critical(self, 'Errore', "Matricola non trovata. Riprovare", QMessageBox.Ok, QMessageBox.Ok)
+            QMessageBox.critical(self, 'Errore', "Compila tutti i campi", QMessageBox.Ok, QMessageBox.Ok)
+            return
+
+        pattern_date = r"^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$"
+
+        if not re.match(pattern_date, self.data_inizio.text()):
+            QMessageBox.critical(self, 'Errore', "Data inizio non valida. Usa questo formato: dd/mm/yyyy", QMessageBox.Ok, QMessageBox.Ok)
+            return
+
+        if not re.match(pattern_date, self.data_fine.text()):
+            QMessageBox.critical(self, 'Errore', "Data fine non valida. Usa questo formato: dd/mm/yyyy", QMessageBox.Ok, QMessageBox.Ok)
             return
 
         items = [self.list_dipendenti.item(x).text() for x in range(self.list_dipendenti.count())]
@@ -134,8 +151,8 @@ class ProgettoForm(QDialog):
                                                 tipologia=self.tipologia.currentText(),
                                                 stato=self.stato.currentText(),
                                                 budget=self.budget.text(),
-                                                data_inizio=self.data_inizio.text(),
-                                                data_fine=self.data_fine.text(),
+                                                data_inizio=datetime.strptime(self.data_inizio.text(), '%d/%m/%Y'),
+                                                data_fine=datetime.strptime(self.data_fine.text(), '%d/%m/%Y'),
                                                 descrizione=self.descrizione.toPlainText(),
                                                 dipendenti=items)
         else:
@@ -145,8 +162,8 @@ class ProgettoForm(QDialog):
                                                     tipologia=self.tipologia.currentText(),
                                                     stato=self.stato.currentText(),
                                                     budget=self.budget.text(),
-                                                    data_inizio=self.data_inizio.text(),
-                                                    data_fine=self.data_fine.text(),
+                                                    data_inizio=datetime.strptime(self.data_inizio.text(), '%d/%m/%Y'),
+                                                    data_fine=datetime.strptime(self.data_fine.text(), '%d/%m/%Y'),
                                                     descrizione=self.descrizione.toPlainText(),
                                                     dipendenti=items)
         self.callback()
